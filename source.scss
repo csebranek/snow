@@ -1,0 +1,56 @@
+$density: 70;      // density
+$gridsize: 600;     // grid size
+$speed: 10s;       // speed
+
+$grad: ();
+@for $i from 0 to $density {
+  $v: random(4) + 2;
+  $a: random(5) * .1 + .5;
+  $grad: $grad, radial-gradient(
+      $v+px $v+px at
+      (random($gridsize - $v * 2) + $v)+px
+      (random($gridsize - $v * 2) + $v)+px, 
+      rgba(255,255,255,$a) 50%,
+      rgba(0,0,0,0)
+  ) !global;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(#124 30%, #667);
+}
+
+h1 {
+  color: white;
+}
+.snow, .snow:before, .snow:after {
+  position: absolute;
+  top: -$gridsize + px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: $grad;
+  background-size: $gridsize + px $gridsize + px;
+  animation: snow $speed linear infinite;
+  content: "";
+  pointer-events: none;
+}
+.snow:after {
+  margin-left: -$gridsize/3 + px;
+  opacity: .4;
+  animation-duration: $speed;
+  filter: blur(3px);
+}
+.snow:before {
+  animation-duration: $speed;
+  margin-left: -$gridsize/2 + px;
+  opacity: .65;
+  filter: blur(1.5px);
+}
+@keyframes snow {
+  to {
+    transform: translateY($gridsize + px);
+  }
+}
+
